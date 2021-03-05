@@ -24,12 +24,15 @@ A = p.full((75, 75), 10000)
 for i in range(len(web)):
     A[web[i][0]][web[i][1]] = 1
     A[web[i][1]][web[i][0]] = 1
+for i in range(0, 75):
+    A[i][i] = 0
 B = A.copy()
-for i in range(1, 75):
+for i in range(0, 75):
    for j in range(0, 75):
-      for k in range(0, 75):
-         if B[j][k] > B[j][i-1] + B[i-1][k]:
-            B[j][k] = B[j][i - 1] + B[i - 1][k]
+      for k in range(j, 75):
+         if B[j][k] > B[j][i] + B[i][k]:
+            B[j][k] = B[j][i] + B[i][k]
+            B[k][j] = B[j][k]
 _max = B[0][0]
 for i in range(B.shape[0]):
     for j in range(B.shape[1]):
@@ -37,3 +40,8 @@ for i in range(B.shape[0]):
             _max = B[i][j]
 print(_max)
 print(B)
+
+#при решении данной задачи был ипользован алгоритм Фройда-Уоршелла,
+#имеющий сложность О(n^3)
+#имеет модификацию а-ля пузырёк, тк граф является неориентированным
+#и его матрица симметрична относительно главной диагонали
